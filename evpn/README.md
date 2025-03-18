@@ -2,48 +2,76 @@
 
 Each workshop participant will be provided with the below topology consisting of 2 leaf and 1 spine nodes along with 4 clients.
 
-![image](../images/lab-topology.jpg)
+![image](images/lab-topology.jpg)
 
 ## NOS (Network Operating System)
 
-Both leafs and Spine nodes will be running the latest Nokia [SR Linux](https://www.nokia.com/networks/ip-networks/service-router-linux-NOS/) release.
+Both leafs and Spine nodes will be running the latest Nokia [SR Linux](https://www.nokia.com/networks/ip-networks/service-router-linux-NOS/) release 24.7.2.
+
+All 4 clients will be running [Alpine Linux](https://alpinelinux.org/)
 
 ## Deploying the lab
+
+Use the below command to clone this repo to your VM.
+
+```bash
+sudo git clone https://github.com/srlinuxamericas/N92-evpn.git
+```
+
+Verify that the git repo files are available on your VM.
+
+```bash
+ls -lrt N92-evpn/n92-evpn-lab/
+```
 
 To deploy the lab, run the following:
 
 ```bash
-cd ~/cwrk/evpn
+cd N92-evpn/n92-evpn-lab
 sudo clab deploy -t srl-evpn.clab.yml
 ```
 
-Containerlab will deploy the lab and display a table with the list of nodes and their IPs.
+[Containerlab](https://containerlab.dev/) will deploy the lab and display a table with the list of nodes and their IPs.
 
 ```bash
-╭─────────┬───────────────────────────────┬─────────┬────────────────────╮
-│   Name  │           Kind/Image          │  State  │   IPv4/6 Address   │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ client1 │ linux                         │ running │ 172.20.20.10       │
-│         │ ghcr.io/srl-labs/alpine       │         │ 2001:172:20:20::10 │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ client2 │ linux                         │ running │ 172.20.20.11       │
-│         │ ghcr.io/srl-labs/alpine       │         │ 2001:172:20:20::11 │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ client3 │ linux                         │ running │ 172.20.20.12       │
-│         │ ghcr.io/srl-labs/alpine       │         │ 2001:172:20:20::12 │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ client4 │ linux                         │ running │ 172.20.20.13       │
-│         │ ghcr.io/srl-labs/alpine       │         │ 2001:172:20:20::13 │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ leaf1   │ nokia_srlinux                 │ running │ 172.20.20.2        │
-│         │ ghcr.io/nokia/srlinux:24.10.1 │         │ 2001:172:20:20::2  │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ leaf2   │ nokia_srlinux                 │ running │ 172.20.20.4        │
-│         │ ghcr.io/nokia/srlinux:24.10.1 │         │ 2001:172:20:20::4  │
-├─────────┼───────────────────────────────┼─────────┼────────────────────┤
-│ spine   │ nokia_srlinux                 │ running │ 172.20.20.3        │
-│         │ ghcr.io/nokia/srlinux:24.10.1 │         │ 2001:172:20:20::3  │
-╰─────────┴───────────────────────────────┴─────────┴────────────────────╯
+user@1:~/N92-evpn/n92-evpn-lab$ sudo clab deploy -t srl-evpn.clab.yml
+INFO[0000] Containerlab v0.58.0 started                 
+INFO[0000] Parsing & checking topology file: srl-evpn.clab.yml
+INFO[0000] Creating docker network: Name="srl-evpn-lab-mgmt", IPv4Subnet="172.20.20.0/24", IPv6Subnet="2001:172:20:20::/64", MTU=0
+INFO[0000] Creating lab directory: /home/user/N92-evpn/n92-evpn-lab/clab-srl-evpn
+INFO[0000] Creating container: "client2"                
+INFO[0000] Creating container: "client4"                
+INFO[0000] Creating container: "leaf2"                  
+INFO[0000] Creating container: "spine"                  
+INFO[0000] Created link: leaf2:e1-2 <--> spine:e1-2     
+INFO[0000] Running postdeploy actions for Nokia SR Linux 'spine' node
+INFO[0000] Created link: client4:eth1 <--> leaf2:e1-11  
+INFO[0000] Running postdeploy actions for Nokia SR Linux 'leaf2' node
+INFO[0001] Creating container: "client3"                
+INFO[0002] Created link: client3:eth1 <--> leaf2:e1-10  
+INFO[0003] Creating container: "leaf1"                  
+INFO[0003] Created link: leaf1:e1-1 <--> spine:e1-1     
+INFO[0003] Created link: client2:eth1 <--> leaf1:e1-11  
+INFO[0003] Running postdeploy actions for Nokia SR Linux 'leaf1' node
+INFO[0005] Creating container: "client1"                
+INFO[0005] Created link: client1:eth1 <--> leaf1:e1-10  
+INFO[0027] Executed command "/root/restart-services.sh" on the node "client4". stdout:
+INFO[0027] Executed command "/root/restart-services.sh" on the node "client3". stdout:
+INFO[0027] Executed command "/root/restart-services.sh" on the node "client1". stdout:
+INFO[0027] Executed command "/root/restart-services.sh" on the node "client2". stdout:
+INFO[0027] Adding containerlab host entries to /etc/hosts file
+INFO[0027] Adding ssh config for containerlab nodes     
++---+---------+--------------+------------------------------+---------------+---------+-----------------+-----------------------+
+| # |  Name   | Container ID |            Image             |     Kind      |  State  |  IPv4 Address   |     IPv6 Address      |
++---+---------+--------------+------------------------------+---------------+---------+-----------------+-----------------------+
+| 1 | client1 | 8ae427b192c6 | ghcr.io/srl-labs/alpine      | linux         | running | 172.20.20.10/24 | 2001:172:20:20::10/64 |
+| 2 | client2 | bbfe0ab03441 | ghcr.io/srl-labs/alpine      | linux         | running | 172.20.20.11/24 | 2001:172:20:20::11/64 |
+| 3 | client3 | 76f0262de571 | ghcr.io/srl-labs/alpine      | linux         | running | 172.20.20.12/24 | 2001:172:20:20::12/64 |
+| 4 | client4 | 8e45ed7389c1 | ghcr.io/srl-labs/alpine      | linux         | running | 172.20.20.13/24 | 2001:172:20:20::13/64 |
+| 5 | leaf1   | 58d90a824ebb | ghcr.io/nokia/srlinux:24.7.2 | nokia_srlinux | running | 172.20.20.2/24  | 2001:172:20:20::2/64  |
+| 6 | leaf2   | 4b0201795b9b | ghcr.io/nokia/srlinux:24.7.2 | nokia_srlinux | running | 172.20.20.4/24  | 2001:172:20:20::4/64  |
+| 7 | spine   | 93c20f40ef66 | ghcr.io/nokia/srlinux:24.7.2 | nokia_srlinux | running | 172.20.20.3/24  | 2001:172:20:20::3/64  |
++---+---------+--------------+------------------------------+---------------+---------+-----------------+-----------------------+
 ```
 
 To display all deployed labs on your VM at any time, use:
@@ -56,33 +84,36 @@ sudo clab inspect --all
 
 Find the nodename or IP address of the device from the above output and then use SSH.
 
+Username: `admin`
+
+Password: Refer to the provided card
+
 ```bash
-ssh leaf1
+ssh admin@leaf1
 ```
 
 To login to the client, identify the client hostname using the `sudo clab inspect --all` command above and then:
 
 ```bash
-sudo docker exec –it client3 bash
+sudo docker exec –it client3 sh
 ```
 
 ## Physical link connectivity
 
-We will be using [Openconfig](https://www.openconfig.net/) to configure the following:
+When the lab is deployed with the default startup config, all the links are created with IPv4 and IPv6 addresses.
+
+This allows to start configuring the protocols right away.
+
+Here's a summary of what is included in the startup config:
 
 - Configure interfaces between Leaf & Spine
 - Configure interface between Leaf & Client
 - Configure system loopback
 - Configure route policy to advertise system loopback (this policy will be later applied under BGP)
 - Configure default Network Instance (VRF) and add system loopback and Leaf/Spine interfaces to this VRF
+- Configure IPs and static routes on Clients
 
-We will use [gRPC gNMI](https://www.openconfig.net/docs/gnmi/gnmi-specification/) to push the configuration to the devices.
-
-[gNMIc](https://gnmic.openconfig.net/) is the most widely used client for gNMI and we will use that for this purpose.
-
-The Openconfig configuration files are located at [configs/oc/](./configs/oc). Any config that is missing in OC will be implemented using SR Linux models. For our use case, we will use SRL models to configure the client facing interfaces on the leafs as a `bridged` interface.
-
-Before we start, verify the current configured interfaces.
+Check the [startup config](n92-evpn-lab/configs/fabric/startup) files to see how these objects are configured in SR Linux.
 
 To view Interface status on SR Linux use:
 
@@ -90,71 +121,17 @@ To view Interface status on SR Linux use:
 show interface
 ```
 
-Only the management interface is configured.
-
-Change to the `OC Running` mode and view the interface configuration in OC.
-
-```
-enter oc
-```
-
-```
-info flat interfaces
-```
-
-The management interface configuration can be seen in OC format. The other interfaces are enabled with no IP configuration.
-
 ### IPv4 Link Addressing
 
-![image](../images/lab-ipv4-2.jpg)
+![image](images/lab-ipv4-2.jpg)
 
 ### IPv6 Link Addressing
 
-![image](../images/lab-ipv6.jpg)
-
-### Using gNMI to push Openconfig
-
-Exit from SR Linux and on your VM, run the following commands to push the configuration in the files to the devices. There is no native configuration for spine as all required configs are covered in Openconfig.
-
-```
-gnmic -a leaf1:57401 -u admin -p NokiaSrl1! --insecure set --update-path openconfig:/ --update-file configs/oc/leaf1-oc.json --update-path srl_nokia:/ --update-file configs/srl/leaf1-native.json --encoding=JSON_IETF
-
-gnmic -a leaf2:57401 -u admin -p NokiaSrl1! --insecure set --update-path openconfig:/ --update-file configs/oc/leaf2-oc.json --update-path srl_nokia:/ --update-file configs/srl/leaf2-native.json --encoding=JSON_IETF
-
-gnmic -a spine:57401 -u admin -p NokiaSrl1! --insecure set --update-path openconfig:/ --update-file configs/oc/spine-oc.json --encoding=JSON_IETF
-```
-
-Expected response from each device:
-
-```
-{
-  "source": "leaf1:57401",
-  "timestamp": 1740857162969095065,
-  "time": "2025-03-01T21:26:02.969095065+02:00",
-  "results": [
-    {
-      "operation": "UPDATE",
-      "path": "openconfig:"
-    },
-    {
-      "operation": "UPDATE",
-      "path": "srl_nokia:"
-    }
-  ]
-}
-```
-
-### Viewing configuration in OC or native
-
-The configuration that we pushed using OC can be viewed in both OC or native format.
-
-To view in OC format, enter `OC Running` mode and run `info flat interfaces`.
-
-To view in SRL format, enter `SRL Running` mode (if not already there) and run `info flat interface *`.
+![image](images/lab-ipv6.jpg)
 
 ### Verify reachability between devices
 
-Now that the interfaces are configured, check reachability between leaf and spine devices using ping.
+After the lab is deployed, check reachability between leaf and spine devices using ping.
 
 Example on spine to Leaf1 using IPv4:
 
@@ -219,7 +196,7 @@ We will export the system loopback IP over BGP to other nodes. This is required 
 
 The export policies are already created as part of the startup config. The routing policy config can be seen using the `info /routing-policy` command. In this step, we will apply them to BGP.
 
-![image](../images/bgp-underlay.jpg)
+![image](images/bgp-underlay.jpg)
 
 ### BGP Underlay Configuration
 
@@ -381,7 +358,7 @@ For establishing overlay BGP session between Leaf1 and Leaf2, we will use the sy
 
 BGP overlay configuration is not required on the Spine as Spine is not aware of EVPN routes.
 
-![image](../images/bgp-overlay.jpg)
+![image](images/bgp-overlay.jpg)
 
 ### BGP Overlay Configuration
 
@@ -461,7 +438,7 @@ The objective is to establish a connection between Client 1 (connected to Leaf1)
 
 Both the clients are in the same subnet (172.16.10.0/24) and therefore, this will be a Layer 2 connection. From a client perspective, it is just like they are connected to a Layer 2 switch.
 
-![image](../images/l2-evpn.jpg)
+![image](images/l2-evpn.jpg)
 
 ### Configure Client Interface
 
@@ -485,7 +462,7 @@ IP addresses on the client side are pre-configured (on interface eth1) during de
 
 To login to Client1, use:
 ```bash
-sudo docker exec -it client1 bash
+sudo docker exec -it client1 sh
 ```
 
 Output on Client1:
@@ -612,13 +589,13 @@ Verify if Client 3 is able to ping Client 1
 Login to Client3 using:
 
 ```bash
-sudo docker exec -it client3 bash
+sudo docker exec -it client3 sh
 ```
 
 Run `ip a` and note down the MAC address of eth1 interface (facing Leaf2).
 
 ```bash
-# sudo docker exec -it client3 bash
+# sudo docker exec -it client3 sh
 / # ip a
 26: eth1@if25: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 9500 qdisc noqueue state UP
     link/ether aa:c1:ab:67:32:61 brd ff:ff:ff:ff:ff:ff
@@ -735,7 +712,11 @@ tools system traffic-monitor verbose protocol udp destination-port 4789
 
 In this command, port 4789 is standard port for VXLAN.
 
-Also, try the commands in the [packet capture section](../40-packet-capture#remote-capture) of this workshop to see VxLAN packet dumps in wireshark.
+### Packet Capture in Containerlab
+
+Containerlab provides the ability to do a packet capture and re-direct the captured packets to Wireshark.
+
+Visit [Containerlab page](https://containerlab.dev/manual/wireshark/) to learn more.
 
 ## Configure Layer 3 EVPN-VXLAN
 
@@ -743,7 +724,7 @@ Our final step is to configure a Layer 3 EVPN-VXLAN.
 
 The objective is to connect Client 2 and Client 4 over a Layer 3 EVPN.
 
-![image](../images/l3-evpn.jpg)
+![image](images/l3-evpn.jpg)
 
 ### Configure Client Interface
 
@@ -894,20 +875,12 @@ IPv4 unicast route table of network instance ip-vrf-1
 
 ### Ping between Client 2 & 4
 
-Login to client2 using:
-
-```bash
-sudo docker exec -it client2 bash
-```
+Login to client2 using `sudo docker exec -it client2 sh`.
 
 Ping Client4 IP from Client2:
 
 ```bash
-ping -c 1 10.90.1.1
-```
-
-Output:
-```bash
+/ # ping -c 1 10.90.1.1
 PING 10.90.1.1 (10.90.1.1): 56 data bytes
 64 bytes from 10.90.1.1: seq=0 ttl=253 time=2.208 ms
 
@@ -940,7 +913,7 @@ Typical use case is when there is a mix of Layer 2 and Layer 3 devices within th
 
 We will use an IRB (Integrated Routing and Bridging) to inter-connect Layer 2 ( mac-vrf) and Layer 3 (ip-vrf).
 
-![image](../images/bonus-irb.jpg)
+![image](images/bonus-irb.jpg)
 
 ### IRB Configuration
 
@@ -984,7 +957,7 @@ set / network-instance ip-vrf-1 interface irb1.100
 
 ### Ping between Client 1 & 4
 
-Login to Client 1 using `sudo docker exec –it client1 bash`.
+Login to Client 1 using `sudo docker exec –it client1 sh`.
 
 Ping Client4 IP from Client1:
 
@@ -1008,9 +981,9 @@ By now, you should have an understanding of how this ping worked. If you have qu
 
 If you would like to explore all of the above without doing any manual configurations, we got you covered !
 
-Go to [Complete startup config](configs/startup-complete) to see the full configuration for each device.
+Go to [Complete startup config](n92-evpn-lab/configs/fabric/startup-complete) to see the full configuration for each device.
 
-In your topology file (srl-evpn.clab.yml), point the startup config file location to `configs/startup-complete/leaf1-startup-complete.cfg` (for Leaf1).
+In your topology file (srl-evpn.clab.yml), point the startup config file location to `configs/fabric/startup-complete/leaf1-startup-complete.cfg` (for Leaf1).
 
 Destroy any existing lab using the command `sudo clab destroy -t srl-evpn.clab.yml --cleanup`.
 
@@ -1018,6 +991,7 @@ Then deploy the lab using `sudo clab deploy -t srl-evpn.clab.yml`.
 
 ## Useful links
 
+* [Network Developer Portal](https://network.developer.nokia.com/)
 * [containerlab](https://containerlab.dev/)
 * [gNMIc](https://gnmic.openconfig.net/)
 
