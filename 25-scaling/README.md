@@ -21,6 +21,17 @@ Both the IOSXE nodes are connected using the Linux bridge.
 
 Startup configs are used to configure the interface and BGP session between the 2 IOSXE nodes.
 
+## Linux Bridge
+
+Before we deploy the lab, create the linux bridge manually.
+
+On your VM:
+
+```bash
+ip link add br-clab type bridge
+ip link set br-clab up
+```
+
 ## Deploy the labs
 
 Deploy the first lab.
