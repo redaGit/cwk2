@@ -15,18 +15,18 @@ All 4 clients will be running [Alpine Linux](https://alpinelinux.org/)
 To deploy the lab, run the following:
 
 ```bash
-cd ~/wk320/n92-evpn-lab
+cd ~/wk320/evpn
 sudo clab deploy -t srl-evpn.clab.yml
 ```
 
 [Containerlab](https://containerlab.dev/) will deploy the lab and display a table with the list of nodes and their IPs.
 
 ```bash
-user@1:~/wk320/n92-evpn-lab$ sudo clab deploy -t srl-evpn.clab.yml
+user@1:~/wk320/evpn$ sudo clab deploy -t srl-evpn.clab.yml
 INFO[0000] Containerlab v0.58.0 started                 
 INFO[0000] Parsing & checking topology file: srl-evpn.clab.yml
 INFO[0000] Creating docker network: Name="srl-evpn-lab-mgmt", IPv4Subnet="172.20.20.0/24", IPv6Subnet="2001:172:20:20::/64", MTU=0
-INFO[0000] Creating lab directory: /home/user/wk320/n92-evpn-lab/clab-srl-evpn
+INFO[0000] Creating lab directory: /home/user/wk320/evpn/clab-srl-evpn
 INFO[0000] Creating container: "client2"                
 INFO[0000] Creating container: "client4"                
 INFO[0000] Creating container: "leaf2"                  
@@ -101,7 +101,7 @@ Here's a summary of what is included in the startup config:
 - Configure default Network Instance (VRF) and add system loopback and Leaf/Spine interfaces to this VRF
 - Configure IPs and static routes on Clients
 
-Check the [startup config](n92-evpn-lab/configs/fabric/startup) files to see how these objects are configured in SR Linux.
+Check the [startup config](evpn/configs/fabric/startup) files to see how these objects are configured in SR Linux.
 
 To view Interface status on SR Linux use:
 
@@ -969,7 +969,7 @@ By now, you should have an understanding of how this ping worked. If you have qu
 
 If you would like to explore all of the above without doing any manual configurations, we got you covered !
 
-Go to [Complete startup config](n92-evpn-lab/configs/fabric/startup-complete) to see the full configuration for each device.
+Go to [Complete startup config](evpn/configs/fabric/startup-complete) to see the full configuration for each device.
 
 In your topology file (srl-evpn.clab.yml), point the startup config file location to `configs/fabric/startup-complete/leaf1-startup-complete.cfg` (for Leaf1).
 
