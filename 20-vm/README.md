@@ -27,8 +27,8 @@ make docker-image INSTALL=false
 The resulting image will be tagged as `vrnetlab/nokia_sros:24.7.R1`. This can be verified using `docker images` command.
 
 ```bash
-REPOSITORY                   TAG           IMAGE ID       CREATED        SIZE
-vrnetlab/cisco_xrv9k         7.9.2         e167b403b281   17 hours ago   2.11GB
+REPOSITORY              TAG       IMAGE ID       CREATED         SIZE
+vrnetlab/cisco_xrv9k    7.9.2     136ee1223a9d   9 seconds ago   2.11GB
 ```
 
 ## Cisco c8000v container image
@@ -49,8 +49,8 @@ make docker-image
 The resulting image will be tagged as `vrnetlab/nokia_sros:24.7.R1`. This can be verified using `docker images` command.
 
 ```bash
-REPOSITORY                   TAG           IMAGE ID       CREATED        SIZE
-vrnetlab/cisco_c8000v        17.06.03      d00f7f43fdd8   16 hours ago   2.86GB
+REPOSITORY              TAG        IMAGE ID       CREATED          SIZE
+vrnetlab/cisco_c8000v   17.06.03   7f8f3ce05ef4   5 seconds ago    2.94GB
 ```
 
 ## Deploying the VM-based nodes lab
