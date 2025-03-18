@@ -138,7 +138,7 @@ To startup a packet capture from Edgeshark UI, click on the `wireshark` icon nex
 ## Destroy startup lab
 
 ```bash
-sudo clab des -t ~/cwrk/15-startup/startup.clab.yml
+sudo clab des -t ~/wk320/15-startup/startup.clab.yml
 ```
 
 
