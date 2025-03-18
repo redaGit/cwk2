@@ -5,7 +5,7 @@ When pulling together what we have learned so far, we can build a lab that embod
 To deploy this lab we will use another neat containerlab feature - the ability to deploy a lab by specifying lab's remote URL. For the labs stored as a repo on GitHub we could even use the shorthand syntax:
 
 ```bash
-cd ~
+cd ~/wk320/60-telemetry
 sudo containerlab deploy -t srl-labs/srl-telemetry-lab
 ```
 
