@@ -101,8 +101,8 @@ docker logs -f xrv9k
 Not that XRV9k takes atleast 10 mins to boot up. Wait until the below message appears in the logs before logging in.
 
 ```bash
-2025-03-17 20:02:18,841: base_driver    INFO connection to '127.0.0.1' on port '5000' closed successfully
-2025-03-17 20:02:18,841: launch         INFO Startup complete in: 0:10:52.408518
+2025-03-18 19:57:33,545: base_driver    INFO connection to '127.0.0.1' on port '5000' closed successfully
+2025-03-18 19:57:33,545: launch         INFO Startup complete in: 0:13:02.491118
 ```
 
 Similarly, monitor the boot logs for c8000v. It takes around 2mins to boot up.
@@ -114,8 +114,8 @@ docker logs -f iosxe
 Wait until the below message appears on c8000v logs:
 
 ```
-2025-03-17 20:45:10,372: base_driver    INFO connection to '127.0.0.1' on port '5000' closed successfully
-2025-03-17 20:45:10,372: launch         INFO Startup complete in: 0:02:06.834517
+2025-03-18 19:46:51,405: base_driver    INFO connection to '127.0.0.1' on port '5000' closed successfully
+2025-03-18 19:46:51,405: launch         INFO Startup complete in: 0:02:20.324186
 ```
 
 ## Connecting to the nodes
