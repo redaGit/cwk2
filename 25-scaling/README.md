@@ -68,7 +68,7 @@ To confirm that traffic between the 2 IOSXE nodes is passing through the bridge,
 On your VM host, run:
 
 ```bash
-tcpdump -i br-clab
+sudo tcpdump -i br-clab
 ```
 
 Login to iosxe node in first lab and ping iosxe2 interface IP.
