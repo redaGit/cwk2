@@ -57,6 +57,8 @@ docker pull ghcr.io/nokia/srlinux
 
 Import cEOS image located stored on your VM and pay attention to the 2nd argument for the `docker import` command where you have to specify the image:
 
+Note - wait for a minute before the output is displayed.
+
 ```bash
 docker import ~/images/cEOS64-lab-4.33.0F.tar ceos:4.33.0F
 ```
