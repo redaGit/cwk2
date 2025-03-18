@@ -1,0 +1,24 @@
+name: scaling-lab-2
+
+prefix: ""
+mgmt:
+  network: scale
+  ipv4-subnet: 172.80.80.0/24
+topology:
+  nodes:
+    srl2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux
+      mgmt-ipv4: 172.80.80.20
+      startup-config: configs/srl.cfg
+    iosxe2:
+      kind: cisco_c8000v
+      image: vrnetlab/cisco_c8000v:17.06.03
+      mgmt-ipv4: 172.80.80.21
+      startup-config: configs/iosxe2.cfg
+    br-clab:
+      kind: bridge
+
+  links:
+    - endpoints: ["iosxe2:Gi3", "srl2:e1-1"]
+    - endpoints: ["iosxe2:Gi2", "br-clab:eth2"]
