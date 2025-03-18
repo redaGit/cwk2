@@ -1,27 +1,22 @@
-name: vm
+name: vm-lab
 
-mgmt:
-  network: vm-lab
-  ipv4-subnet: 192.168.122.0/24
+prefix: ""
 topology:
   nodes:
     srl:
       kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux
-      mgmt-ipv4: 192.168.122.101
       startup-config: configs/srl.cfg
-    sros:
-      kind: nokia_sros
-      image: vrnetlab/nokia_sros:24.7.R1
-      mgmt-ipv4: 192.168.122.102
-      license: /home/nokiauser/images/sros-24.lic
-      startup-config: configs/sros.partial.cfg
-    vmx:
-      kind: juniper_vmx
-      image: registry.srlinux.dev/pub/vr-vmx:bb
-      mgmt-ipv4: 192.168.122.103
-      startup-config: configs/junos.cfg
+    iosxe:
+      kind: cisco_c8000v
+      image: vrnetlab/cisco_c8000v:17.06.03
+      startup-config: configs/iosxe.cfg
+    xrv9k:
+      kind: cisco_xrv9k
+      image: vrnetlab/cisco_xrv9k:7.9.2
+      startup-config: configs/xrv9k.cfg
+
   links:
-    - endpoints: ["srl:e1-1", "sros:eth1"]
-    - endpoints: ["srl:e1-2", "vmx:eth1"]
-    - endpoints: ["sros:eth2", "vmx:eth2"]
+    - endpoints: ["iosxe:Gi2", "xrv9k:Gi0/0/0/0"]
+    - endpoints: ["iosxe:Gi3", "srl:e1-1"]
+    - endpoints: ["srl:e1-2", "xrv9k:Gi0/0/0/1"]	
