@@ -28,8 +28,8 @@ Before we deploy the lab, create the linux bridge manually.
 On your VM:
 
 ```bash
-ip link add br-clab type bridge
-ip link set br-clab up
+sudo ip link add br-clab type bridge
+sudo ip link set br-clab up
 ```
 
 ## Deploy the labs
