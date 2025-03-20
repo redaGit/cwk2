@@ -1,7 +1,5 @@
 """
-CLI Plugin for Cisco-style IP Route Command
-Author: Alperen Akpinar
-Email: alperen.akpinar@nokia.com
+CLI Plugin
 """
 from srlinux.mgmt.cli import CliPlugin
 from srlinux.syntax import Syntax
