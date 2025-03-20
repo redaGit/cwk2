@@ -14,6 +14,8 @@ A Nokia team member will provide you with a card that contains:
 - SSH credentials to the VM instance
 - URL of this repo
 
+![image](images/workshop.jpg)
+
 > <p style="color:red">!!! Make sure to backup any code, config, ... <u> offline (e.g on your laptop)</u>. 
 > The VM instances will be destroyed once the Workshop is concluded.</p>
 
